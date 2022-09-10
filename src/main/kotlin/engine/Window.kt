@@ -8,6 +8,7 @@ import org.lwjgl.opengl.GL
 import org.lwjgl.opengl.GL11.*
 import org.lwjgl.system.MemoryUtil.NULL
 import kotlin.math.max
+import kotlin.random.Random
 
 class Window() {
     private val width = 1920/2
@@ -92,20 +93,21 @@ class Window() {
             glClearColor(r, g, b, a)
             glClear(GL_COLOR_BUFFER_BIT)
 
-            // mouse keys events
+            //// mouse keys events
+            //if (fadeToBlack){
+            //    r = max(r - 0.01f, 0f)
+            //    g = max(g - 0.01f, 0f)
+            //    b = max(b - 0.01f, 0f)
+            //}
+            //when{
+            //    KeyListener().isKeyPressed(GLFW_KEY_SPACE) -> {
+            //        fadeToBlack = true
+            //    }
+            //}
 
-
-            if (fadeToBlack){
-                r = max(r - 0.01f, 0f)
-                g = max(g - 0.01f, 0f)
-                b = max(b - 0.01f, 0f)
-            }
-            when{
-                KeyListener().isKeyPressed(GLFW_KEY_SPACE) -> {
-                    fadeToBlack = true
-                }
-            }
-
+            r = (0f + Math.random() * (1f-0f)).toFloat()
+            g = (0f + Math.random() * (1f-0f)).toFloat()
+            b = (0f + Math.random() * (1f-0f)).toFloat()
 
             glfwSwapBuffers(glfwWindow)
         }
