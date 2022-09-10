@@ -7,13 +7,14 @@ import org.lwjgl.glfw.GLFWErrorCallback
 import org.lwjgl.opengl.GL
 import org.lwjgl.opengl.GL11.*
 import org.lwjgl.system.MemoryUtil.NULL
+import kotlin.math.max
 
 class Window() {
     private val width = 1920/2
     private val height = 1080/2
     private val title = "KGE"
     private var glfwWindow: Long = 0L
-
+    var fadeToBlack = false
     var r = 1f
     var g = 1f
     var b = 1f
@@ -90,6 +91,22 @@ class Window() {
             // color stuff :)
             glClearColor(r, g, b, a)
             glClear(GL_COLOR_BUFFER_BIT)
+
+            // mouse keys events
+
+
+            if (fadeToBlack){
+                r = max(r - 0.01f, 0f)
+                g = max(g - 0.01f, 0f)
+                b = max(b - 0.01f, 0f)
+            }
+            when{
+                KeyListener().isKeyPressed(GLFW_KEY_SPACE) -> {
+                    fadeToBlack = true
+                }
+            }
+
+
             glfwSwapBuffers(glfwWindow)
         }
     }
