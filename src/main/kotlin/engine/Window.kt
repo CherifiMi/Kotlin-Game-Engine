@@ -14,6 +14,11 @@ class Window() {
     private val title = "KGE"
     private var glfwWindow: Long = 0L
 
+    var r = 1f
+    var g = 1f
+    var b = 1f
+    var a = 1f
+
     companion object {
         private var window: Window? = null
 
@@ -82,7 +87,8 @@ class Window() {
             // poll events
             glfwPollEvents()
 
-            glClearColor(0.180f, 0.95f, 0.61f, 1f)
+            // color stuff :)
+            glClearColor(r, g, b, a)
             glClear(GL_COLOR_BUFFER_BIT)
             glfwSwapBuffers(glfwWindow)
         }

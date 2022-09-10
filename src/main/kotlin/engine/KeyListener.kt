@@ -25,8 +25,6 @@ class KeyListener {
         if (action == GLFW_RELEASE) {
             get().keyPressed[key] = false
         }
-
-        println(key)
     }
 
     fun isKeyPressed(keyCode: Int): Boolean {
