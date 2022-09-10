@@ -2,7 +2,6 @@ package engine
 
 import org.lwjgl.glfw.GLFW.GLFW_PRESS
 import org.lwjgl.glfw.GLFW.GLFW_RELEASE
-import java.awt.SystemColor.window
 
 class KeyListener {
     private var keyPressed = BooleanArray(350)
