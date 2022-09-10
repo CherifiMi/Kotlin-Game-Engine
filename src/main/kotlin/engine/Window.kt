@@ -7,20 +7,30 @@ import org.lwjgl.glfw.GLFWErrorCallback
 import org.lwjgl.opengl.GL
 import org.lwjgl.opengl.GL11.*
 import org.lwjgl.system.MemoryUtil.NULL
-import kotlin.math.max
-import kotlin.random.Random
 
 class Window() {
     private val width = 1920/2
     private val height = 1080/2
     private val title = "KGE"
     private var glfwWindow: Long = 0L
-    var fadeToBlack = false
+
     var r = 1f
     var g = 1f
     var b = 1f
     var a = 1f
 
+    private var currentScene: Scene? = null
+
+    fun changeScene(newScene: Int){
+        when(newScene){
+            0 -> {
+                currentScene = LevelEditorScene()
+            }
+            1 -> {
+                currentScene = LevelScene()
+            }
+        }
+    }
     companion object {
         private var window: Window? = null
 
@@ -83,8 +93,16 @@ class Window() {
         glfwShowWindow(glfwWindow)
 
         GL.createCapabilities()
+
+        // change scene
+        changeScene(0)
     }
+
     private fun loop() {
+        var beginTime: Float = glfwGetTime().toFloat()
+        var endTime: Float
+        var dt = -1.0f
+
         while (!glfwWindowShouldClose(glfwWindow)){
             // poll events
             glfwPollEvents()
@@ -93,23 +111,17 @@ class Window() {
             glClearColor(r, g, b, a)
             glClear(GL_COLOR_BUFFER_BIT)
 
-            //// mouse keys events
-            //if (fadeToBlack){
-            //    r = max(r - 0.01f, 0f)
-            //    g = max(g - 0.01f, 0f)
-            //    b = max(b - 0.01f, 0f)
-            //}
-            //when{
-            //    KeyListener().isKeyPressed(GLFW_KEY_SPACE) -> {
-            //        fadeToBlack = true
-            //    }
-            //}
+            // mouse keys events
+            if (dt >= 0) {
+                currentScene?.update(dt);
+            }
 
-            r = (0f + Math.random() * (1f-0f)).toFloat()
-            g = (0f + Math.random() * (1f-0f)).toFloat()
-            b = (0f + Math.random() * (1f-0f)).toFloat()
 
             glfwSwapBuffers(glfwWindow)
+
+            endTime = glfwGetTime().toFloat()
+            dt = endTime - beginTime;
+            beginTime = endTime;
         }
     }
 }
