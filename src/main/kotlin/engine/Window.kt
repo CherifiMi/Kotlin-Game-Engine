@@ -64,6 +64,8 @@ class Window() {
         glfwSetMouseButtonCallback(glfwWindow, MouseListener()::mouseButtonCallback)
         glfwSetScrollCallback(glfwWindow, MouseListener()::mouseScrollCallback)
 
+        // keys callbacks
+        glfwSetKeyCallback(glfwWindow, KeyListener()::keyCallback)
 
         // make OpenGL context current
         glfwMakeContextCurrent(glfwWindow)
