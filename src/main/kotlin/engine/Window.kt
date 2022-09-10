@@ -1,6 +1,7 @@
 package engine
 
 import org.lwjgl.Version
+import org.lwjgl.glfw.Callbacks.glfwFreeCallbacks
 import org.lwjgl.glfw.GLFW.*
 import org.lwjgl.glfw.GLFWErrorCallback
 import org.lwjgl.opengl.GL
@@ -28,6 +29,13 @@ class Window() {
         println("hillo LWJGL " + Version.getVersion())
         init()
         loop()
+
+        // free memory
+        glfwFreeCallbacks(glfwWindow)
+        glfwDestroyWindow(glfwWindow)
+        glfwTerminate()
+        glfwSetErrorCallback(null)?.free()
+
     }
 
     private fun init() {
