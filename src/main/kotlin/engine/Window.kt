@@ -7,10 +7,12 @@ import org.lwjgl.glfw.GLFWErrorCallback
 import org.lwjgl.opengl.GL
 import org.lwjgl.opengl.GL11.*
 import org.lwjgl.system.MemoryUtil.NULL
+import util.setIcon
+
 
 class Window() {
-    private val width = 1920/2
-    private val height = 1080/2
+    private val width = 1920 / 2
+    private val height = 1080 / 2
     private val title = "KGE"
     private var glfwWindow: Long = 0L
 
@@ -21,8 +23,8 @@ class Window() {
 
     private var currentScene: Scene? = null
 
-    fun changeScene(newScene: Int){
-        when(newScene){
+    fun changeScene(newScene: Int) {
+        when (newScene) {
             0 -> {
                 currentScene = LevelEditorScene()
             }
@@ -31,6 +33,7 @@ class Window() {
             }
         }
     }
+
     companion object {
         private var window: Window? = null
 
@@ -42,7 +45,7 @@ class Window() {
         }
     }
 
-    fun run(){
+    fun run() {
         println("hillo LWJGL " + Version.getVersion())
         init()
         loop()
@@ -60,8 +63,8 @@ class Window() {
         GLFWErrorCallback.createPrint(System.err).set()
 
         // init glfw
-        if (!glfwInit()){
-            throw(java.lang.IllegalStateException("Unable to init GLFW."))
+        if (!glfwInit()) {
+            throw (java.lang.IllegalStateException("Unable to init GLFW."))
         }
 
         // config glfw
@@ -72,8 +75,8 @@ class Window() {
 
         //  create window
         glfwWindow = glfwCreateWindow(this.width, this.height, this.title, NULL, NULL)
-        if (glfwWindow == NULL){
-            throw(IllegalStateException("Fail to create GLFW window."))
+        if (glfwWindow == NULL) {
+            throw (IllegalStateException("Fail to create GLFW window."))
         }
 
         // mouse callbacks
@@ -89,6 +92,9 @@ class Window() {
         //Enable v-sync
         glfwSwapInterval(1)
 
+        //change app icon
+        setIcon(glfwWindow, "dico_icon.jpg")
+
         // make window visible
         glfwShowWindow(glfwWindow)
 
@@ -103,7 +109,7 @@ class Window() {
         var endTime: Float
         var dt = -1.0f
 
-        while (!glfwWindowShouldClose(glfwWindow)){
+        while (!glfwWindowShouldClose(glfwWindow)) {
             // poll events
             glfwPollEvents()
 
@@ -120,8 +126,8 @@ class Window() {
             glfwSwapBuffers(glfwWindow)
 
             endTime = glfwGetTime().toFloat()
-            dt = endTime - beginTime;
-            beginTime = endTime;
+            dt = endTime - beginTime
+            beginTime = endTime
         }
     }
 }
