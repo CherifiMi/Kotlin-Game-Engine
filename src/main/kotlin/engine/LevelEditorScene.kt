@@ -157,7 +157,15 @@ class LevelEditorScene : Scene() {
         glEnableVertexAttribArray(0)
         glEnableVertexAttribArray(1)
 
-        GL11.glDrawElements(GL_TRIANGLES, elementArray.size, GL_UNSIGNED_INT, 0)
+        glDrawElements(GL_TRIANGLES, elementArray.size, GL_UNSIGNED_INT, 0)
+
+        // unbind everything
+        glDisableVertexAttribArray(0)
+        glDisableVertexAttribArray(1)
+
+        glBindVertexArray(0)
+
+        glUseProgram(0)
 
     }
 }
