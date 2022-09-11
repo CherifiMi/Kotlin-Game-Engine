@@ -5,46 +5,31 @@ import org.lwjgl.opengl.GL11
 import org.lwjgl.opengl.GL20.*
 import org.lwjgl.opengl.GL30.glBindVertexArray
 import org.lwjgl.opengl.GL30.glGenVertexArrays
+import util.readTextFromFile
 
 
 class LevelEditorScene : Scene() {
-    private var vertexShaderSrc = "#version 330 core\n" +
-            "layout (location=0) in vec3 aPos;\n" +
-            "layout (location=1) in vec4 aColor;\n" +
-            "\n" +
-            "out vec4 fColor;\n" +
-            "\n" +
-            "void main()\n" +
-            "{\n" +
-            "    fColor = aColor;\n" +
-            "    gl_Position = vec4(aPos, 1.0);\n" +
-            "}"
-    private var fragmentShaderSrc = "#version 330 core\n" +
-            "\n" +
-            "in vec4 fColor;\n" +
-            "\n" +
-            "out vec4 color;\n" +
-            "\n" +
-            "void main()\n" +
-            "{\n" +
-            "    color = fColor;\n" +
-            "}"
+    private var vertexShaderSrc = readTextFromFile("shaders/vertex_shader.glsl")
+    private var fragmentShaderSrc = readTextFromFile("shaders/fragment_shader.glsl")
+
     private var vertexId: Int = 0
     private var fragmentId: Int = 0
     private var shaderProgram: Int = 0
 
     private val vertexArray = floatArrayOf(
-        // position               // color
-        0.5f, -0.5f, 0.0f,      1.0f, 0.0f, 0.0f, 1.0f,   // Bottom right 0
-        -0.5f, 0.5f, 0.0f,      0.0f, 1.0f, 0.0f, 1.0f,   // Top left     1
-        0.5f, 0.5f, 0.0f,       1.0f, 0.0f, 1.0f, 1.0f,   // Top right    2
-        -0.5f, -0.5f, 0.0f,     1.0f, 1.0f, 0.0f, 1.0f,   // Bottom left  3
+        // position                 // rgb             //alpha
+        0.5f, -0.5f, 0.0f,          1.0f,0.0f,0.0f,    1.0f,    // Bottom right 0
+        -0.5f, 0.5f, 0.0f,          0.0f,1.0f,0.0f,    1.0f,    // Top left     1
+        0.5f, 0.5f, 0.0f,           0.0f,0.0f,1.0f,    1.0f,    // Top right    2
+        -0.5f, -0.5f, 0.0f,         0.0f,0.0f,0.0f,    1.0f,    // Bottom left  3
     )
 
     // ? IMPORTANT: Must be in counter-clockwise order
     private val elementArray = intArrayOf(
-        /*
+            /*
                     x        x
+
+
                     x        x
              */
         2, 1, 0,  // Top right triangle
