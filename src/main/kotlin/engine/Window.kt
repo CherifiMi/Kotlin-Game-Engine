@@ -23,13 +23,15 @@ class Window() {
 
     private var currentScene: Scene? = null
 
-    fun changeScene(newScene: Int) {
+    private fun changeScene(newScene: Int) {
         when (newScene) {
             0 -> {
                 currentScene = LevelEditorScene()
+                currentScene?.init()
             }
             1 -> {
                 currentScene = LevelScene()
+                currentScene?.init()
             }
         }
     }
@@ -93,7 +95,7 @@ class Window() {
         glfwSwapInterval(1)
 
         //change app icon
-        setIcon(glfwWindow, "dico_icon.jpg")
+        setIcon(glfwWindow, "images/dico_icon.jpg")
 
         // make window visible
         glfwShowWindow(glfwWindow)

@@ -2,5 +2,10 @@ package engine
 
 class LevelScene : Scene() {
 
-    override fun update(dt: Float) {}
+    override fun init() {
+
+    }
+    override fun update(dt: Float) {
+
+    }
 }
