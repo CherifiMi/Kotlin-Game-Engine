@@ -23,7 +23,7 @@ class Window() {
 
     private var currentScene: Scene? = null
 
-    private fun changeScene(newScene: Int) {
+    fun changeScene(newScene: Int) {
         when (newScene) {
             0 -> {
                 currentScene = LevelEditorScene()
