@@ -144,6 +144,7 @@ class LevelEditorScene : Scene() {
 
         glDrawElements(GL_TRIANGLES, elementArray.size, GL_UNSIGNED_INT, 0)
 
+
         // unbind everything
         glDisableVertexAttribArray(0)
         glDisableVertexAttribArray(1)
