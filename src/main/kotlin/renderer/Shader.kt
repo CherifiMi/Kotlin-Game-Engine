@@ -4,12 +4,12 @@ import org.lwjgl.opengl.GL20
 import org.lwjgl.opengl.GL20.*
 import util.readTextFromFile
 
-class Shader {
+class Shader(v: String, f: String) {
     var shaderProgramId: Int = 0
     private var vertexShaderSrc: String
     private var fragmentShaderSrc: String
 
-    constructor(v: String, f: String){
+    init {
         vertexShaderSrc = readTextFromFile("shaders/$v")
         fragmentShaderSrc = readTextFromFile("shaders/$f")
     }
