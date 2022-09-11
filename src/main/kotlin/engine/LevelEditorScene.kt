@@ -1,6 +1,7 @@
 package engine
 
 import org.lwjgl.BufferUtils
+import org.lwjgl.opengl.GL11
 import org.lwjgl.opengl.GL20.*
 import org.lwjgl.opengl.GL30.glBindVertexArray
 import org.lwjgl.opengl.GL30.glGenVertexArrays
@@ -146,6 +147,17 @@ class LevelEditorScene : Scene() {
     }
 
     override fun update(dt: Float) {
+        // bind shader program
+        glUseProgram(shaderProgram)
+
+        // bind the vao that we are using
+        glBindVertexArray(vaoId)
+
+        // enable the vertex attrs pointer
+        glEnableVertexAttribArray(0)
+        glEnableVertexAttribArray(1)
+
+        GL11.glDrawElements(GL_TRIANGLES, elementArray.size, GL_UNSIGNED_INT, 0)
 
     }
 }
