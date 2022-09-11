@@ -1,27 +1,21 @@
 package engine
 
 import org.lwjgl.BufferUtils
-import org.lwjgl.opengl.GL11
 import org.lwjgl.opengl.GL20.*
 import org.lwjgl.opengl.GL30.glBindVertexArray
 import org.lwjgl.opengl.GL30.glGenVertexArrays
-import util.readTextFromFile
+import renderer.Shader
 
 
 class LevelEditorScene : Scene() {
-    private var vertexShaderSrc = readTextFromFile("shaders/vertex_shader.glsl")
-    private var fragmentShaderSrc = readTextFromFile("shaders/fragment_shader.glsl")
-
-    private var vertexId: Int = 0
-    private var fragmentId: Int = 0
-    private var shaderProgram: Int = 0
+    private var defaultShader: Shader = Shader("vertex_shader.glsl", "fragment_shader.glsl")
 
     private val vertexArray = floatArrayOf(
         // position                 // rgb             //alpha
         0.5f, -0.5f, 0.0f,          1.0f,0.0f,0.0f,    1.0f,    // Bottom right 0
         -0.5f, 0.5f, 0.0f,          0.0f,1.0f,0.0f,    1.0f,    // Top left     1
         0.5f, 0.5f, 0.0f,           0.0f,0.0f,1.0f,    1.0f,    // Top right    2
-        -0.5f, -0.5f, 0.0f,         0.0f,0.0f,0.0f,    1.0f,    // Bottom left  3
+        -0.5f, -0.5f, 0.0f,         0.0f,1.0f,.74f,    1.0f,    // Bottom left  3
     )
 
     // ? IMPORTANT: Must be in counter-clockwise order
@@ -41,59 +35,9 @@ class LevelEditorScene : Scene() {
     private var eboId: Int = 0
 
     override fun init() {
-
-        /* ! Compile and load shaders*/
-
-        // * load and compile vertex shader
-        vertexId = glCreateShader(GL_VERTEX_SHADER)
-
-        // * pass the shader to GPU
-        glShaderSource(vertexId, vertexShaderSrc)
-        glCompileShader(vertexId)
-
-        // look for errors in compilation
-        var success: Int = glGetShaderi(vertexId, GL_COMPILE_STATUS)
-        if (success == GL_FALSE) {
-            var len: Int = glGetShaderi(vertexId, GL_INFO_LOG_LENGTH)
-            println("ERROR:  'default.glsl'\n Vertex shader compilation failed.")
-            println(glGetShaderInfoLog(vertexId, len))
-            assert(false)
-        }
-        //______________________
+        defaultShader.compile()
 
 
-        // * load and compile vertex shader
-        fragmentId = glCreateShader(GL_FRAGMENT_SHADER)
-
-        // * pass the shader to GPU
-        glShaderSource(fragmentId, fragmentShaderSrc)
-        glCompileShader(fragmentId)
-
-        // look for errors in compilation
-        success = glGetShaderi(fragmentId, GL_COMPILE_STATUS)
-        if (success == GL_FALSE) {
-            var len: Int = glGetShaderi(fragmentId, GL_INFO_LOG_LENGTH)
-            println("ERROR:  'default.glsl'\n Fragment shader compilation failed.")
-            println(glGetShaderInfoLog(fragmentId, len))
-            assert(false)
-        }
-
-        //____________________________
-
-        // * link shader to program
-        shaderProgram = glCreateProgram()
-        glAttachShader(shaderProgram, vertexId)
-        glAttachShader(shaderProgram, fragmentId)
-        glLinkProgram(shaderProgram)
-
-        // * check for error
-        success = glGetProgrami(shaderProgram, GL_LINK_STATUS)
-        if (success == GL_FALSE) {
-            var len: Int = glGetShaderi(shaderProgram, GL_INFO_LOG_LENGTH)
-            println("ERROR:  'default.glsl'\n Linking shaders failed")
-            println(glGetProgramInfoLog(shaderProgram, len))
-            assert(false)
-        }
 
         /* ! generate VAO, VBO, EBO buffer objects and send them to gpu*/
         vaoId = glGenVertexArrays()
@@ -128,12 +72,11 @@ class LevelEditorScene : Scene() {
         glEnableVertexAttribArray(0)
 
         glVertexAttribPointer(1, colorSize, GL_FLOAT, false, vertexSizeBytes, (positionsSize * floatSizeBytes).toLong())
-        glEnableVertexAttribArray(1);
+        glEnableVertexAttribArray(1)
     }
 
     override fun update(dt: Float) {
-        // bind shader program
-        glUseProgram(shaderProgram)
+        defaultShader.use()
 
         // bind the vao that we are using
         glBindVertexArray(vaoId)
@@ -151,7 +94,7 @@ class LevelEditorScene : Scene() {
 
         glBindVertexArray(0)
 
-        glUseProgram(0)
 
+        defaultShader.detach()
     }
 }
