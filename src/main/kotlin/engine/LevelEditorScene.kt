@@ -13,11 +13,11 @@ class LevelEditorScene : Scene() {
     private var defaultShader: Shader = Shader("vertex_shader.glsl", "fragment_shader.glsl")
 
     private val vertexArray = floatArrayOf(
-        // position                 // rgb             //alpha
-        100.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f,    // Bottom right 0
-        -0.5f, 100.5f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f,    // Top left     1
-        100.5f, 100.5f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f,    // Top right    2
-        -0.5f, -0.5f, 0.0f, 0.0f, 1.0f, .74f, 1.0f,    // Bottom left  3
+        // position                 // rgb              //alpha
+        100.5f, -0.5f, 0.0f,        1.0f, 0.0f, 0.0f,   1.0f,    // Bottom right 0
+        -0.5f, 100.5f, 0.0f,        0.0f, 1.0f, .74f,   1.0f,    // Top left     1
+        100.5f, 100.5f, 0.0f,       0.0f, 0.0f, 1.0f,   1.0f,    // Top right    2
+        -0.5f, -0.5f, 0.0f,         0.0f, 1.0f, .74f,   1.0f,    // Bottom left  3
     )
 
     // ? IMPORTANT: Must be in counter-clockwise order
