@@ -1,3 +1,4 @@
+
 #version 330 core
 
 uniform float uTime;
@@ -8,6 +9,6 @@ out vec4 color;
 
 void main()
 {
-    float noise = fract(sin(dot(fColor.xy, vec2(12.9898, 78.255)))*43758.5453);
-    color = fColor * noise * uTime;
+    vec2 uv = gl_FragCoord.xy/tan(uTime);
+    color = sin(vec4(0.5 + 0.5*cos(uTime+uv.yxy),1.0) / fColor);
 }
