@@ -15,11 +15,11 @@ class LevelEditorScene : Scene() {
     private var defaultShader: Shader = Shader("vertex_shader.glsl", "fragment_shader.glsl")
 
     private val vertexArray = floatArrayOf(
-        // position                 // rgb              //alpha
-        100.5f, -0.5f, 0.0f,        1.0f, 0.0f, 0.0f,   1.0f,    // Bottom right 0
-        -0.5f, 100.5f, 0.0f,        0.0f, 1.0f, .74f,   1.0f,    // Top left     1
-        100.5f, 100.5f, 0.0f,       0.0f, 0.0f, 1.0f,   1.0f,    // Top right    2
-        -0.5f, -0.5f, 0.0f,         0.0f, 1.0f, .74f,   1.0f,    // Bottom left  3
+        // position                 // rgb              //alpha     //UV Coords
+        100.5f, -0.5f, 0.0f,        1.0f, 0.0f, 0.0f,   1.0f,       1f, 0f,  // Bottom right 0
+        -0.5f, 100.5f, 0.0f,        0.0f, 1.0f, .74f,   1.0f,       0f, 1f,  // Top left     1
+        100.5f, 100.5f, 0.0f,       0.0f, 0.0f, 1.0f,   1.0f,       1f, 1f,  // Top right    2
+        -0.5f, -0.5f, 0.0f,         0.0f, 1.0f, .74f,   1.0f,       0f, 0f,  // Bottom left  3
     )
 
     // ? IMPORTANT: Must be in counter-clockwise order
@@ -66,13 +66,17 @@ class LevelEditorScene : Scene() {
         // Add the vertex attribute pointers
         val positionsSize = 3
         val colorSize = 4
-        val floatSizeBytes = 4
-        val vertexSizeBytes = (positionsSize + colorSize) * floatSizeBytes
+        val uvSize = 2
+        val floatSizeBytes = Float.SIZE_BYTES
+        val vertexSizeBytes = (positionsSize + colorSize + uvSize) * floatSizeBytes
         glVertexAttribPointer(0, positionsSize, GL_FLOAT, false, vertexSizeBytes, 0)
         glEnableVertexAttribArray(0)
 
         glVertexAttribPointer(1, colorSize, GL_FLOAT, false, vertexSizeBytes, (positionsSize * floatSizeBytes).toLong())
         glEnableVertexAttribArray(1)
+
+        glVertexAttribPointer(2, uvSize, GL_FLOAT, false, vertexSizeBytes, ((positionsSize + colorSize) * floatSizeBytes).toLong())
+        glEnableVertexAttribArray(2)
     }
 
     override fun update(dt: Float) {
