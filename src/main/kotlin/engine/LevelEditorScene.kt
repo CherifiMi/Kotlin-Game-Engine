@@ -77,8 +77,10 @@ class LevelEditorScene : Scene() {
     }
 
     override fun update(dt: Float) {
+        // control camera
         moveCamera()
 
+        // set shader
         defaultShader.use()
         defaultShader.uploadMat4f("uProj", camera!!.getProjectionMatrix())
         defaultShader.uploadMat4f("uView", camera!!.getViewMatrix())
@@ -89,17 +91,15 @@ class LevelEditorScene : Scene() {
         // enable the vertex attrs pointer
         glEnableVertexAttribArray(0)
         glEnableVertexAttribArray(1)
-
         glDrawElements(GL_TRIANGLES, elementArray.size, GL_UNSIGNED_INT, 0)
 
 
         // unbind everything
         glDisableVertexAttribArray(0)
         glDisableVertexAttribArray(1)
-
         glBindVertexArray(0)
 
-
+        // detach shader
         defaultShader.detach()
     }
 
