@@ -9,5 +9,5 @@ out vec4 color;
 void main()
 {
     float nois = fract(sin(dot(fColor.xy, vec2(12.9898, 78.255)))*43758.5453);
-    color = fColor * nois;
+    color = fColor * nois * (uTime*uTime);
 }
