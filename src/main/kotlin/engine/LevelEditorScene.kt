@@ -6,7 +6,6 @@ import org.lwjgl.opengl.GL20.*
 import org.lwjgl.opengl.GL30.glBindVertexArray
 import org.lwjgl.opengl.GL30.glGenVertexArrays
 import renderer.Shader
-import java.awt.event.KeyEvent
 
 
 class LevelEditorScene : Scene() {
@@ -76,21 +75,7 @@ class LevelEditorScene : Scene() {
         glEnableVertexAttribArray(1)
     }
 
-    private val speed = 10f
     override fun update(dt: Float) {
-        if (KeyListener().isKeyPressed(KeyEvent.VK_A)){
-            camera!!.position.x += speed
-        }
-        if (KeyListener().isKeyPressed(KeyEvent.VK_D)){
-            camera!!.position.x -= speed
-        }
-        if (KeyListener().isKeyPressed(KeyEvent.VK_S) ){
-            camera!!.position.y += speed
-        }
-        if (KeyListener().isKeyPressed(KeyEvent.VK_W)){
-            camera!!.position.y -= speed
-        }
-
         defaultShader.use()
         defaultShader.uploadMat4f("uProj", camera!!.getProjectionMatrix())
         defaultShader.uploadMat4f("uView", camera!!.getViewMatrix())
