@@ -126,4 +126,10 @@ class Shader(v: String, f: String) {
         glUniform1i(varLocation, v)
     }
 
+    fun uploadTex(varName: String, v: Int){
+        val varLocation = glGetUniformLocation(shaderProgramId, varName)
+        use()
+        glUniform1i(varLocation, v)
+    }
+
 }

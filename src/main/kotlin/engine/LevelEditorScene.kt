@@ -8,18 +8,20 @@ import org.lwjgl.opengl.GL20.*
 import org.lwjgl.opengl.GL30.glBindVertexArray
 import org.lwjgl.opengl.GL30.glGenVertexArrays
 import renderer.Shader
+import renderer.Texture
 import java.awt.event.KeyEvent
 
 
 class LevelEditorScene : Scene() {
     private var defaultShader: Shader = Shader("vertex_shader.glsl", "fragment_shader.glsl")
+    private var testTexture: Texture = Texture("src/main/resources/images/dico_icon.jpg")
 
     private val vertexArray = floatArrayOf(
         // position                 // rgb              //alpha     //UV Coords
-        100.5f, -0.5f, 0.0f,        1.0f, 0.0f, 0.0f,   1.0f,       1f, 0f,  // Bottom right 0
-        -0.5f, 100.5f, 0.0f,        0.0f, 1.0f, .74f,   1.0f,       0f, 1f,  // Top left     1
-        100.5f, 100.5f, 0.0f,       0.0f, 0.0f, 1.0f,   1.0f,       1f, 1f,  // Top right    2
-        -0.5f, -0.5f, 0.0f,         0.0f, 1.0f, .74f,   1.0f,       0f, 0f,  // Bottom left  3
+        100.5f, -0.5f, 0.0f,        1.0f, 0.0f, 0.0f,   1.0f,       1f, 1f,  // Bottom right 0
+        -0.5f, 100.5f, 0.0f,        0.0f, 1.0f, .74f,   1.0f,       0f, 0f,  // Top left     1
+        100.5f, 100.5f, 0.0f,       0.0f, 0.0f, 1.0f,   1.0f,       1f, 0f,  // Top right    2
+        -0.5f, -0.5f, 0.0f,         0.0f, 1.0f, .74f,   1.0f,       0f, 1f,  // Bottom left  3
     )
 
     // ? IMPORTANT: Must be in counter-clockwise order
@@ -88,6 +90,10 @@ class LevelEditorScene : Scene() {
         defaultShader.uploadMat4f("uProj", camera!!.getProjectionMatrix())
         defaultShader.uploadMat4f("uView", camera!!.getViewMatrix())
         defaultShader.uploadFloat("uTime", glfwGetTime().toFloat())
+        defaultShader.uploadTex("TEX", 0)
+        glActiveTexture(GL_TEXTURE0)
+        testTexture.bind()
+
 
         // bind the vao that we are using
         glBindVertexArray(vaoId)
