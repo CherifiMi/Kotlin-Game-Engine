@@ -1,10 +1,12 @@
 package engine
 
+import org.joml.Vector2f
 import org.lwjgl.BufferUtils
 import org.lwjgl.opengl.GL20.*
 import org.lwjgl.opengl.GL30.glBindVertexArray
 import org.lwjgl.opengl.GL30.glGenVertexArrays
 import renderer.Shader
+import java.awt.event.KeyEvent
 
 
 class LevelEditorScene : Scene() {
@@ -12,9 +14,9 @@ class LevelEditorScene : Scene() {
 
     private val vertexArray = floatArrayOf(
         // position                 // rgb             //alpha
-        0.5f, -0.5f, 0.0f,          1.0f,0.0f,0.0f,    1.0f,    // Bottom right 0
-        -0.5f, 0.5f, 0.0f,          0.0f,1.0f,0.0f,    1.0f,    // Top left     1
-        0.5f, 0.5f, 0.0f,           0.0f,0.0f,1.0f,    1.0f,    // Top right    2
+        100.5f, -0.5f, 0.0f,          1.0f,0.0f,0.0f,    1.0f,    // Bottom right 0
+        -0.5f, 100.5f, 0.0f,          0.0f,1.0f,0.0f,    1.0f,    // Top left     1
+        100.5f, 100.5f, 0.0f,           0.0f,0.0f,1.0f,    1.0f,    // Top right    2
         -0.5f, -0.5f, 0.0f,         0.0f,1.0f,.74f,    1.0f,    // Bottom left  3
     )
 
@@ -35,9 +37,8 @@ class LevelEditorScene : Scene() {
     private var eboId: Int = 0
 
     override fun init() {
+        this.camera = Camera(Vector2f())
         defaultShader.compile()
-
-
 
         /* ! generate VAO, VBO, EBO buffer objects and send them to gpu*/
         vaoId = glGenVertexArrays()
@@ -76,7 +77,11 @@ class LevelEditorScene : Scene() {
     }
 
     override fun update(dt: Float) {
+
+
         defaultShader.use()
+        defaultShader.uploadMat4f("uProj", camera!!.getProjectionMatrix())
+        defaultShader.uploadMat4f("uView", camera!!.getViewMatrix())
 
         // bind the vao that we are using
         glBindVertexArray(vaoId)

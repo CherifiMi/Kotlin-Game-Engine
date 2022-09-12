@@ -1,6 +1,7 @@
 package renderer
 
-import org.lwjgl.opengl.GL20
+import org.joml.Matrix4f
+import org.lwjgl.BufferUtils
 import org.lwjgl.opengl.GL20.*
 import util.readTextFromFile
 
@@ -63,7 +64,7 @@ class Shader(v: String, f: String) {
         success = glGetProgrami(shaderProgramId, GL_LINK_STATUS)
         if (success == GL_FALSE) {
             var len: Int = glGetShaderi(shaderProgramId, GL_INFO_LOG_LENGTH)
-            println("ERROR:  'default.glsl'\n Linking shaders failed")
+            println("ERROR: Linking shaders failed")
             println(glGetProgramInfoLog(shaderProgramId, len))
             assert(false)
         }
@@ -76,5 +77,12 @@ class Shader(v: String, f: String) {
 
     fun detach(){
         glUseProgram(0)
+    }
+
+    fun uploadMat4f(varName: String, mat4: Matrix4f){
+        val varLocation = glGetUniformLocation(shaderProgramId, varName)
+        val matBuffer = BufferUtils.createFloatBuffer(16)
+        mat4.get(matBuffer)
+        glUniformMatrix4fv(varLocation, false, matBuffer)
     }
 }
