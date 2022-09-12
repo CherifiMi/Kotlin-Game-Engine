@@ -16,10 +16,10 @@ class LevelEditorScene : Scene() {
 
     private val vertexArray = floatArrayOf(
         // position                 // rgb              //alpha
-        1000f, 0f, 0f,/*100.5f, -0.5f, 0.0f,  */      1.0f, 0.0f, 0.0f,   1.0f,    // Bottom right 0
-        0f, 1000f, 0f,/*-0.5f, 100.5f, 0.0f,  */      0.0f, 1.0f, .74f,   1.0f,    // Top left     1
-        1000f, 1000f, 0f,/*100.5f, 100.5f, 0.0f, */      0.0f, 0.0f, 1.0f,   1.0f,    // Top right    2
-        0f, 0f, 0f,/*-0.5f, -0.5f, 0.0f,   */      0.0f, 1.0f, .74f,   1.0f,    // Bottom left  3
+        100.5f, -0.5f, 0.0f,        1.0f, 0.0f, 0.0f,   1.0f,    // Bottom right 0
+        -0.5f, 100.5f, 0.0f,        0.0f, 1.0f, .74f,   1.0f,    // Top left     1
+        100.5f, 100.5f, 0.0f,       0.0f, 0.0f, 1.0f,   1.0f,    // Top right    2
+        -0.5f, -0.5f, 0.0f,         0.0f, 1.0f, .74f,   1.0f,    // Bottom left  3
     )
 
     // ? IMPORTANT: Must be in counter-clockwise order
@@ -118,9 +118,6 @@ class LevelEditorScene : Scene() {
         }
         if (KeyListener().isKeyPressed(KeyEvent.VK_SPACE)) {
             camera!!.position.y -= 30f
-        }
-        if (camera!!.position.y < 0f && !KeyListener().isKeyPressed(KeyEvent.VK_W) && !KeyListener().isKeyPressed(KeyEvent.VK_W)) {
-            camera!!.position.y += 10f
         }
     }
 }
