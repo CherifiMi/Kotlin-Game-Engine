@@ -76,8 +76,22 @@ class LevelEditorScene : Scene() {
         glEnableVertexAttribArray(1)
     }
 
+    private val speed = 10f
     override fun update(dt: Float) {
-
+        when{
+            KeyListener().isKeyPressed(KeyEvent.VK_A) -> {
+                camera!!.position.x += speed
+            }
+            KeyListener().isKeyPressed(KeyEvent.VK_D) -> {
+                camera!!.position.x -= speed
+            }
+            KeyListener().isKeyPressed(KeyEvent.VK_S) -> {
+                camera!!.position.y += speed
+            }
+            KeyListener().isKeyPressed(KeyEvent.VK_W) -> {
+                camera!!.position.y -= speed
+            }
+        }
 
         defaultShader.use()
         defaultShader.uploadMat4f("uProj", camera!!.getProjectionMatrix())
