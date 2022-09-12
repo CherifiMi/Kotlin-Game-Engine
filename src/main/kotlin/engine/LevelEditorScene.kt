@@ -78,19 +78,17 @@ class LevelEditorScene : Scene() {
 
     private val speed = 10f
     override fun update(dt: Float) {
-        when{
-            KeyListener().isKeyPressed(KeyEvent.VK_A) -> {
-                camera!!.position.x += speed
-            }
-            KeyListener().isKeyPressed(KeyEvent.VK_D) -> {
-                camera!!.position.x -= speed
-            }
-            KeyListener().isKeyPressed(KeyEvent.VK_S) -> {
-                camera!!.position.y += speed
-            }
-            KeyListener().isKeyPressed(KeyEvent.VK_W) -> {
-                camera!!.position.y -= speed
-            }
+        if (KeyListener().isKeyPressed(KeyEvent.VK_A)){
+            camera!!.position.x += speed
+        }
+        if (KeyListener().isKeyPressed(KeyEvent.VK_D)){
+            camera!!.position.x -= speed
+        }
+        if (KeyListener().isKeyPressed(KeyEvent.VK_S) ){
+            camera!!.position.y += speed
+        }
+        if (KeyListener().isKeyPressed(KeyEvent.VK_W)){
+            camera!!.position.y -= speed
         }
 
         defaultShader.use()
