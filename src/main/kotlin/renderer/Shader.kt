@@ -1,19 +1,17 @@
 package renderer
 
-import org.joml.Matrix4f
+import org.joml.*
 import org.lwjgl.BufferUtils
 import org.lwjgl.opengl.GL20.*
 import util.readTextFromFile
+import java.nio.FloatBuffer
 
 class Shader(v: String, f: String) {
-    var shaderProgramId: Int = 0
-    private var vertexShaderSrc: String
-    private var fragmentShaderSrc: String
+    private var shaderProgramId: Int = 0
+    var beingUsed = false
+    private var vertexShaderSrc = readTextFromFile("shaders/$v")
+    private var fragmentShaderSrc = readTextFromFile("shaders/$f")
 
-    init {
-        vertexShaderSrc = readTextFromFile("shaders/$v")
-        fragmentShaderSrc = readTextFromFile("shaders/$f")
-    }
 
     fun compile(){
         var vertexId = 0
@@ -71,18 +69,61 @@ class Shader(v: String, f: String) {
     }
 
     fun use(){
-        // bind shader program
-        glUseProgram(shaderProgramId)
+        if (!beingUsed){
+            glUseProgram(shaderProgramId)
+            beingUsed = true
+        }
     }
 
     fun detach(){
         glUseProgram(0)
+        beingUsed = false
     }
 
     fun uploadMat4f(varName: String, mat4: Matrix4f){
         val varLocation = glGetUniformLocation(shaderProgramId, varName)
+        use()
         val matBuffer = BufferUtils.createFloatBuffer(16)
         mat4.get(matBuffer)
         glUniformMatrix4fv(varLocation, false, matBuffer)
     }
+
+    fun uploadVec4f(varName: String, vec: Vector4f){
+        val varLocation = glGetUniformLocation(shaderProgramId, varName)
+        use()
+        glUniform4f(varLocation, vec.x, vec.y, vec.z, vec.w)
+    }
+
+    fun uploadMat3f(varName: String?, mat3: Matrix3f) {
+        val varLocation = glGetUniformLocation(shaderProgramId, varName)
+        use()
+        val matBuffer: FloatBuffer = BufferUtils.createFloatBuffer(9)
+        mat3.get(matBuffer)
+        glUniformMatrix3fv(varLocation, false, matBuffer)
+    }
+
+    fun uploadVec3f(varName: String?, vec: Vector3f) {
+        val varLocation = glGetUniformLocation(shaderProgramId, varName)
+        use()
+        glUniform3f(varLocation, vec.x, vec.y, vec.z)
+    }
+
+    fun uploadVec2f(varName: String?, vec: Vector2f) {
+        val varLocation = glGetUniformLocation(shaderProgramId, varName)
+        use()
+        glUniform2f(varLocation, vec.x, vec.y)
+    }
+
+    fun uploadFloat(varName: String, v: Float){
+        val varLocation = glGetUniformLocation(shaderProgramId, varName)
+        use()
+        glUniform1f(varLocation, v)
+    }
+
+    fun uploadInt(varName: String, v: Int){
+        val varLocation = glGetUniformLocation(shaderProgramId, varName)
+        use()
+        glUniform1i(varLocation, v)
+    }
+
 }

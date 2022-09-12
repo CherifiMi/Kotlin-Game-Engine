@@ -2,6 +2,8 @@ package engine
 
 import org.joml.Vector2f
 import org.lwjgl.BufferUtils
+import org.lwjgl.glfw.GLFW
+import org.lwjgl.glfw.GLFW.glfwGetTime
 import org.lwjgl.opengl.GL20.*
 import org.lwjgl.opengl.GL30.glBindVertexArray
 import org.lwjgl.opengl.GL30.glGenVertexArrays
@@ -40,21 +42,18 @@ class LevelEditorScene : Scene() {
         this.camera = Camera(Vector2f())
         defaultShader.compile()
 
-        /* ! generate VAO, VBO, EBO buffer objects and send them to gpu*/
+        /* generate VAO, VBO, EBO buffer objects and send them to gpu*/
         vaoId = glGenVertexArrays()
         glBindVertexArray(vaoId)
-
 
         // Create a float buffer of vertices
         val vertexBuffer = BufferUtils.createFloatBuffer(vertexArray.size)
         vertexBuffer.put(vertexArray).flip()
 
-
         // Create VBO upload the vertex buffer
         vboId = glGenBuffers()
         glBindBuffer(GL_ARRAY_BUFFER, vboId)
         glBufferData(GL_ARRAY_BUFFER, vertexBuffer, GL_STATIC_DRAW)
-
 
         // Create the indices and upload
         val elementBuffer = BufferUtils.createIntBuffer(elementArray.size)
@@ -84,6 +83,7 @@ class LevelEditorScene : Scene() {
         defaultShader.use()
         defaultShader.uploadMat4f("uProj", camera!!.getProjectionMatrix())
         defaultShader.uploadMat4f("uView", camera!!.getViewMatrix())
+        defaultShader.uploadFloat("uTime", glfwGetTime().toFloat())
 
         // bind the vao that we are using
         glBindVertexArray(vaoId)
