@@ -11,8 +11,8 @@ import util.setIcon
 
 
 class Window() {
-    private val width = 1920/2
-    private val height = 1080/2
+    private val width = 1920
+    private val height = 1080
     private val title = "KGE"
     private var glfwWindow: Long = 0L
 
@@ -121,7 +121,7 @@ class Window() {
 
             // mouse keys events
             if (dt >= 0) {
-                currentScene?.update(dt);
+                currentScene?.update(dt)
             }
 
 

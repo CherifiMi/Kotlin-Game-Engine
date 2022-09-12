@@ -8,6 +8,6 @@ out vec4 color;
 
 void main()
 {
-    float avg = (fColor.r, fColor.g, fColor.b)/3;
-    color = sin(uTime) * vec4(avg, avg, avg, 1);
+    float nois = fract(sin(dot(fColor.xy, vec2(12.9898, 78.255)))*43758.5453);
+    color = fColor * nois;
 }
