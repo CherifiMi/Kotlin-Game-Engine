@@ -6,6 +6,7 @@ import org.lwjgl.opengl.GL20.*
 import org.lwjgl.opengl.GL30.glBindVertexArray
 import org.lwjgl.opengl.GL30.glGenVertexArrays
 import renderer.Shader
+import java.awt.event.KeyEvent
 
 
 class LevelEditorScene : Scene() {
@@ -13,20 +14,20 @@ class LevelEditorScene : Scene() {
 
     private val vertexArray = floatArrayOf(
         // position                 // rgb             //alpha
-        100.5f, -0.5f, 0.0f,          1.0f,0.0f,0.0f,    1.0f,    // Bottom right 0
-        -0.5f, 100.5f, 0.0f,          0.0f,1.0f,0.0f,    1.0f,    // Top left     1
-        100.5f, 100.5f, 0.0f,           0.0f,0.0f,1.0f,    1.0f,    // Top right    2
-        -0.5f, -0.5f, 0.0f,         0.0f,1.0f,.74f,    1.0f,    // Bottom left  3
+        100.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f,    // Bottom right 0
+        -0.5f, 100.5f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f,    // Top left     1
+        100.5f, 100.5f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f,    // Top right    2
+        -0.5f, -0.5f, 0.0f, 0.0f, 1.0f, .74f, 1.0f,    // Bottom left  3
     )
 
     // ? IMPORTANT: Must be in counter-clockwise order
     private val elementArray = intArrayOf(
-            /*
-                    x        x
+        /*
+                x        x
 
 
-                    x        x
-             */
+                x        x
+         */
         2, 1, 0,  // Top right triangle
         0, 1, 3 // bottom left triangle
     )
@@ -76,6 +77,8 @@ class LevelEditorScene : Scene() {
     }
 
     override fun update(dt: Float) {
+        moveCamera()
+
         defaultShader.use()
         defaultShader.uploadMat4f("uProj", camera!!.getProjectionMatrix())
         defaultShader.uploadMat4f("uView", camera!!.getViewMatrix())
@@ -98,5 +101,26 @@ class LevelEditorScene : Scene() {
 
 
         defaultShader.detach()
+    }
+
+    private fun moveCamera() {
+        if (KeyListener().isKeyPressed(KeyEvent.VK_A)) {
+            camera!!.position.x += 10f
+        }
+        if (KeyListener().isKeyPressed(KeyEvent.VK_D)) {
+            camera!!.position.x -= 10f
+        }
+        if (KeyListener().isKeyPressed(KeyEvent.VK_S)) {
+            camera!!.position.y += 10f
+        }
+        if (KeyListener().isKeyPressed(KeyEvent.VK_W)) {
+            camera!!.position.y -= 10f
+        }
+        if (KeyListener().isKeyPressed(KeyEvent.VK_SPACE)) {
+            camera!!.position.y -= 30f
+        }
+        if (camera!!.position.y < 0f && !KeyListener().isKeyPressed(KeyEvent.VK_W) && !KeyListener().isKeyPressed(KeyEvent.VK_W)) {
+            camera!!.position.y += 10f
+        }
     }
 }
