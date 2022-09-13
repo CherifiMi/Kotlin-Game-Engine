@@ -14,11 +14,9 @@ class Shader(v: String, f: String) {
 
 
     fun compile(){
-        var vertexId = 0
-        var fragmentId = 0
 
         // load and compile vertex shader
-        vertexId = glCreateShader(GL_VERTEX_SHADER)
+        var vertexId: Int = glCreateShader(GL_VERTEX_SHADER)
 
         // pass the shader to GPU
         glShaderSource(vertexId, vertexShaderSrc)
@@ -27,13 +25,13 @@ class Shader(v: String, f: String) {
         // look for errors in compilation
         var success: Int = glGetShaderi(vertexId, GL_COMPILE_STATUS)
         if (success == GL_FALSE) {
-            var len: Int = glGetShaderi(vertexId, GL_INFO_LOG_LENGTH)
+            val len: Int = glGetShaderi(vertexId, GL_INFO_LOG_LENGTH)
             println(glGetShaderInfoLog(vertexId, len))
             assert(false) {"ERROR:  'vertex_shader.glsl'\n Vertex shader compilation failed."}
         }
 
         // load and compile vertex shader
-        fragmentId = glCreateShader(GL_FRAGMENT_SHADER)
+        var fragmentId: Int = glCreateShader(GL_FRAGMENT_SHADER)
 
         // pass the shader to GPU
         glShaderSource(fragmentId, fragmentShaderSrc)
@@ -42,7 +40,7 @@ class Shader(v: String, f: String) {
         // look for errors in compilation
         success = glGetShaderi(fragmentId, GL_COMPILE_STATUS)
         if (success == GL_FALSE) {
-            var len: Int = glGetShaderi(fragmentId, GL_INFO_LOG_LENGTH)
+            val len: Int = glGetShaderi(fragmentId, GL_INFO_LOG_LENGTH)
             println(glGetShaderInfoLog(fragmentId, len))
             assert(false) {"ERROR:  'fragment_shader.glsl'\n Fragment shader compilation failed."}
         }
@@ -59,7 +57,7 @@ class Shader(v: String, f: String) {
         // check for error
         success = glGetProgrami(shaderProgramId, GL_LINK_STATUS)
         if (success == GL_FALSE) {
-            var len: Int = glGetShaderi(shaderProgramId, GL_INFO_LOG_LENGTH)
+            val len: Int = glGetShaderi(shaderProgramId, GL_INFO_LOG_LENGTH)
             println(glGetProgramInfoLog(shaderProgramId, len))
             assert(false){"ERROR: Linking shaders failed"}
         }

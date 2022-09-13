@@ -1,5 +1,3 @@
-import componenets.SpriteRenderer
-import engine.GameObject
 import engine.Window
 
 fun main(){
