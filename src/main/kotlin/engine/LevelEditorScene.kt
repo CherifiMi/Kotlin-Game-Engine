@@ -1,8 +1,9 @@
 package engine
 
+import componenets.FontRenderer
+import componenets.SpriteRenderer
 import org.joml.Vector2f
 import org.lwjgl.BufferUtils
-import org.lwjgl.glfw.GLFW
 import org.lwjgl.glfw.GLFW.glfwGetTime
 import org.lwjgl.opengl.GL20.*
 import org.lwjgl.opengl.GL30.glBindVertexArray
@@ -14,7 +15,8 @@ import java.awt.event.KeyEvent
 
 class LevelEditorScene : Scene() {
     private var defaultShader: Shader = Shader("vertex_shader.glsl", "fragment_shader.glsl")
-    private var testTexture: Texture = Texture("src/main/resources/images/dico_icon.jpg")
+    private var testTexture: Texture = Texture("src/main/resources/images/mario.png")
+    private lateinit var testObj: GameObject
 
     private val vertexArray = floatArrayOf(
         // position                 // rgb              //alpha     //UV Coords
@@ -41,7 +43,17 @@ class LevelEditorScene : Scene() {
     private var eboId: Int = 0
 
     override fun init() {
-        this.camera = Camera(Vector2f())
+        // init objects
+        testObj = GameObject("mito")
+        testObj.addComponents(SpriteRenderer())
+        testObj.addComponents(SpriteRenderer())
+        testObj.addComponents(FontRenderer())
+        addGameObjectToScene(testObj)
+
+        //camera start pos
+        camera = Camera(Vector2f())
+
+        // compile default shader
         defaultShader.compile()
 
         /* generate VAO, VBO, EBO buffer objects and send them to gpu*/
@@ -84,7 +96,6 @@ class LevelEditorScene : Scene() {
     override fun update(dt: Float) {
         // control camera
         moveCamera()
-
         // set shader
         defaultShader.use()
         defaultShader.uploadMat4f("uProj", camera!!.getProjectionMatrix())
@@ -111,6 +122,11 @@ class LevelEditorScene : Scene() {
 
         // detach shader
         defaultShader.detach()
+
+        // update components
+        for (go in this.gameObject){
+            go.update(dt)
+        }
     }
 
     private fun moveCamera() {

@@ -6,8 +6,7 @@ fun readTextFromFile(s: String): String {
     return try {
         File("src/main/resources/$s").readText()
     }catch (e: Exception){
-        println(e)
-        assert(false)
+        assert(false) {"ERROR:  $e\n file:  $s."}
         ""
     }
 }

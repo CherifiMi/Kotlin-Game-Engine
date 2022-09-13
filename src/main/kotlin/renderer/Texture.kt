@@ -36,13 +36,11 @@ class Texture(s: String) {
                 glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width.get(0), height.get(0), 0, GL_RGBA, GL_UNSIGNED_BYTE, image)
             }
             else{
-                println("ERROR: texture unknown channels number, file path: $filePath")
-                assert(false)
+                assert(false) { "ERROR: texture unknown channels number, file path: $filePath" }
             }
         }
         else{
-            println("ERROR: texture could not be loaded, file path: $filePath")
-            assert(false)
+            assert(false) {"ERROR: texture could not be loaded, file path: $filePath"}
         }
 
         stbi_image_free(image)

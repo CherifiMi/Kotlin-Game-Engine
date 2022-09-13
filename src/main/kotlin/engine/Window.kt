@@ -11,8 +11,8 @@ import util.setIcon
 
 
 class Window() {
-    private val width = 1920/2
-    private val height = 1080/2
+    private val width = 1920 /2
+    private val height = 1080 /2
     private val title = "KGE"
     private var glfwWindow: Long = 0L
 
@@ -28,10 +28,12 @@ class Window() {
             0 -> {
                 currentScene = LevelEditorScene()
                 currentScene?.init()
+                currentScene?.start()
             }
             1 -> {
                 currentScene = LevelScene()
                 currentScene?.init()
+                currentScene?.start()
             }
         }
     }
@@ -73,7 +75,7 @@ class Window() {
         glfwDefaultWindowHints()
         glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE)
         glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE)
-        glfwWindowHint(GLFW_MAXIMIZED, GLFW_FALSE)
+        glfwWindowHint(GLFW_MAXIMIZED, GLFW_TRUE)
 
         //  create window
         glfwWindow = glfwCreateWindow(this.width, this.height, this.title, NULL, NULL)

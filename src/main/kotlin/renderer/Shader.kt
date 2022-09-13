@@ -28,9 +28,8 @@ class Shader(v: String, f: String) {
         var success: Int = glGetShaderi(vertexId, GL_COMPILE_STATUS)
         if (success == GL_FALSE) {
             var len: Int = glGetShaderi(vertexId, GL_INFO_LOG_LENGTH)
-            println("ERROR:  'vertex_shader.glsl'\n Vertex shader compilation failed.")
             println(glGetShaderInfoLog(vertexId, len))
-            assert(false)
+            assert(false) {"ERROR:  'vertex_shader.glsl'\n Vertex shader compilation failed."}
         }
 
         // load and compile vertex shader
@@ -44,9 +43,8 @@ class Shader(v: String, f: String) {
         success = glGetShaderi(fragmentId, GL_COMPILE_STATUS)
         if (success == GL_FALSE) {
             var len: Int = glGetShaderi(fragmentId, GL_INFO_LOG_LENGTH)
-            println("ERROR:  'fragment_shader.glsl'\n Fragment shader compilation failed.")
             println(glGetShaderInfoLog(fragmentId, len))
-            assert(false)
+            assert(false) {"ERROR:  'fragment_shader.glsl'\n Fragment shader compilation failed."}
         }
 
 
@@ -62,9 +60,8 @@ class Shader(v: String, f: String) {
         success = glGetProgrami(shaderProgramId, GL_LINK_STATUS)
         if (success == GL_FALSE) {
             var len: Int = glGetShaderi(shaderProgramId, GL_INFO_LOG_LENGTH)
-            println("ERROR: Linking shaders failed")
             println(glGetProgramInfoLog(shaderProgramId, len))
-            assert(false)
+            assert(false){"ERROR: Linking shaders failed"}
         }
     }
 
