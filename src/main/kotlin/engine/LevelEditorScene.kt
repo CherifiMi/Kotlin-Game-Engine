@@ -119,9 +119,8 @@ class LevelEditorScene : Scene() {
         glDisableVertexAttribArray(0)
         glDisableVertexAttribArray(1)
         glBindVertexArray(0)
-
-        // detach shader
         defaultShader.detach()
+        testTexture.unbind() // TODO: 9/13/2022  
 
         // update components
         for (go in this.gameObject){

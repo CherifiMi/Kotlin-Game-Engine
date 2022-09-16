@@ -25,4 +25,7 @@ abstract class Scene {
 
     abstract fun update(dt: Float)
 
+    fun camera(): Camera{
+        return camera!!
+    }
 }

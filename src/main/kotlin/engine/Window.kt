@@ -38,6 +38,10 @@ class Window() {
         }
     }
 
+    fun getScene(): Scene{
+        return get().currentScene!!
+    }
+
     companion object {
         private var window: Window? = null
 

@@ -1,19 +1,17 @@
 package componenets
 
 import engine.Component
+import org.joml.Vector2f
+import java.awt.Color
 
-class SpriteRenderer: Component() {
+class SpriteRenderer(c: Vector2f = Vector2f()): Component() {
 
-    var firstTime = false
+    val color = c
 
     override fun start() {
-        println("starting componenets. ${this.gameObject?.name}")
     }
 
     override fun update(dt: Float) {
-        if (!firstTime){
-            println("update hiii componenetssss ${this.gameObject?.name}")
-            firstTime = true
-        }
+
     }
 }

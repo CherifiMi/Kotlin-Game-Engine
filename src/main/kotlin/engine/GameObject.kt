@@ -1,14 +1,11 @@
 package engine
 
-class GameObject(n: String) {
+class GameObject(n: String, t: Transform = Transform()) {
 
-    val name = n
-
-    init {
-        println(name)
-    }
-
+    private val name = n
     private var components: MutableList<Component> = mutableListOf()
+    var transform = t
+
 
     fun <T : Component?> getComponent(componentClass: Class<T>): T? {
         for (c in components) {
