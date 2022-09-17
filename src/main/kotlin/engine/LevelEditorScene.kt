@@ -43,6 +43,7 @@ class LevelEditorScene : Scene() {
         }
 
         renderer.render()
+        MouseListener().endFrame()
     }
 
     var s = 10f
@@ -59,6 +60,7 @@ class LevelEditorScene : Scene() {
         if (KeyListener().isKeyPressed(KeyEvent.VK_W)) {
             camera!!.position.y -= s
         }
+        zoom += MouseListener().scrollY().toFloat()/10f
     }
 }
 

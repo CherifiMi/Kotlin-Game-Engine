@@ -5,6 +5,7 @@ import renderer.Renderer
 abstract class Scene {
     val renderer = Renderer()
     var camera: Camera? = null
+    var zoom: Float = 1f
     var isRunning = false
     var gameObject: MutableList<GameObject> = mutableListOf()
 
@@ -30,7 +31,4 @@ abstract class Scene {
 
     abstract fun update(dt: Float)
 
-    fun camera(): Camera{
-        return camera!!
-    }
 }

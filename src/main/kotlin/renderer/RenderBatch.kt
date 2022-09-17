@@ -2,7 +2,6 @@ package renderer
 
 import componenets.SpriteRenderer
 import engine.Window
-import org.joml.Vector4f
 import org.lwjgl.opengl.GL15.*
 import org.lwjgl.opengl.GL20.glDisableVertexAttribArray
 import org.lwjgl.opengl.GL20.glEnableVertexAttribArray
@@ -77,9 +76,11 @@ class RenderBatch(maxBatchSize: Int) {
 
         // use shader
         val camera = Window().getScene().camera!!
+        val zoom = Window().getScene().zoom
         shader.use()
         shader.uploadMat4f("uProj", camera.getProjectionMatrix())
         shader.uploadMat4f("uView", camera.getViewMatrix())
+        shader.uploadFloat("uZoom", zoom)
 
         glBindVertexArray(vaoId)
         glEnableVertexAttribArray(0)

@@ -4,11 +4,12 @@ layout (location=1) in vec4 aColor;
 
 uniform mat4 uProj;
 uniform mat4 uView;
+uniform float uZoom;
 
 out vec4 fColor;
 
 void main()
 {
     fColor = aColor;
-    gl_Position = uProj * uView * vec4(aPos, 1.0);
+    gl_Position = uProj * uView * vec4(aPos, uZoom);
 }
