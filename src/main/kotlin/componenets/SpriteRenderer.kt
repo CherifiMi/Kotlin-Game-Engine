@@ -1,17 +1,9 @@
 package componenets
 
 import engine.Component
-import org.joml.Vector2f
-import java.awt.Color
+import org.joml.Vector4f
 
-class SpriteRenderer(c: Vector2f = Vector2f()): Component() {
-
-    val color = c
-
-    override fun start() {
-    }
-
-    override fun update(dt: Float) {
-
-    }
+class SpriteRenderer(val color: Vector4f = Vector4f()) : Component() {
+    override fun start() {}
+    override fun update(dt: Float) {}
 }

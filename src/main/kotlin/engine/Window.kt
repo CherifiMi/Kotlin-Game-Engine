@@ -11,14 +11,14 @@ import util.setIcon
 
 
 class Window() {
-    private val width = 1920 /2
-    private val height = 1080 /2
+    private val width = 1920
+    private val height = 1080
     private val title = "KGE"
     private var glfwWindow: Long = 0L
 
-    var r = 1f
-    var g = 1f
-    var b = 1f
+    var r = 0f
+    var g = 0f
+    var b = 0f
     var a = 1f
 
     private var currentScene: Scene? = null

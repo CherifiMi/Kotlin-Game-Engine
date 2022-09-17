@@ -23,8 +23,8 @@ class Camera(p: Vector2f) {
     }
 
     fun getViewMatrix(): Matrix4f {
-        var cameraFront = Vector3f(0f, 0f, -1f)
-        var cameraUp = Vector3f(0f, 1f, 0f)
+        val cameraFront = Vector3f(0f, 0f, -1f)
+        val cameraUp = Vector3f(0f, 1f, 0f)
         viewMatrix.identity()
         viewMatrix =
             viewMatrix.lookAt(

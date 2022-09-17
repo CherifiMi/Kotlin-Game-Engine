@@ -1,7 +1,10 @@
 package engine
 
+import renderer.Renderer
+
 abstract class Scene {
-    protected var camera: Camera? = null
+    val renderer = Renderer()
+    var camera: Camera? = null
     var isRunning = false
     var gameObject: MutableList<GameObject> = mutableListOf()
 
@@ -10,6 +13,7 @@ abstract class Scene {
     fun start(){
         for (go in gameObject){
             go.start()
+            this.renderer.add(go)
         }
         isRunning = true
     }
@@ -20,6 +24,7 @@ abstract class Scene {
         }else{
             gameObject.add(go)
             go.start()
+            this.renderer.add(go)
         }
     }
 
