@@ -12,6 +12,7 @@ class LevelEditorScene : Scene() {
     override fun init() {
         camera = Camera(Vector2f(-250f, 0f))
 
+        // region draw
         val xOffset = 10
         val yOffset = 10
 
@@ -19,7 +20,7 @@ class LevelEditorScene : Scene() {
         val totalHeight = (600 - yOffset * 2).toFloat()
         val sizeX = totalWidth / 100.0f
         val sizeY = totalHeight / 100.0f
-        val padding = 2f
+        val padding = 5f
 
         for (x in 0..99) {
             for (y in 0..99) {
@@ -30,22 +31,21 @@ class LevelEditorScene : Scene() {
                 addGameObjectToScene(go)
             }
         }
+        // endregion
 
     }
 
     override fun update(dt: Float) {
-        // control camera
         moveCamera()
 
-        // update components
         for (go in gameObject) {
             go.update(dt)
         }
 
         renderer.render()
-        MouseListener().endFrame()
     }
 
+    //region camera control
     var s = 10f
     private fun moveCamera() {
         if (KeyListener().isKeyPressed(KeyEvent.VK_A)) {
@@ -61,6 +61,10 @@ class LevelEditorScene : Scene() {
             camera!!.position.y -= s
         }
         zoom += MouseListener().scrollY().toFloat()/10f
+        MouseListener().endFrame()
     }
+
+    //endregion
+
 }
 
