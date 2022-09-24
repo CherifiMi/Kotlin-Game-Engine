@@ -27,12 +27,12 @@ class Window() {
         when (newScene) {
             0 -> {
                 currentScene = LevelEditorScene()
-                currentScene?.init()
+                currentScene?.setup()
                 currentScene?.start()
             }
             1 -> {
                 currentScene = LevelScene()
-                currentScene?.init()
+                currentScene?.setup()
                 currentScene?.start()
             }
         }
@@ -54,7 +54,7 @@ class Window() {
     }
 
     fun run() {
-        println("hillo LWJGL " + Version.getVersion())
+        println("LWJGL " + Version.getVersion())
         init()
         loop()
 

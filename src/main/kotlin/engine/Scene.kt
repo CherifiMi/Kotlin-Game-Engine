@@ -9,7 +9,7 @@ abstract class Scene {
     var isRunning = false
     var gameObject: MutableList<GameObject> = mutableListOf()
 
-    abstract fun init()
+    abstract fun setup()
 
     fun start(){
         for (go in gameObject){

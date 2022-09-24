@@ -6,10 +6,9 @@ import org.joml.Vector2f
 import org.joml.Vector4f
 import java.awt.event.KeyEvent
 
-
 class LevelEditorScene : Scene() {
 
-    override fun init() {
+    override fun setup() {
         camera = Camera(Vector2f(-250f, 0f))
 
         // region draw
