@@ -4,6 +4,7 @@ package engine
 import componenets.SpriteRenderer
 import org.joml.Vector2f
 import org.joml.Vector4f
+import util.AssetPool
 import java.awt.event.KeyEvent
 
 class LevelEditorScene : Scene() {
@@ -30,8 +31,13 @@ class LevelEditorScene : Scene() {
                 addGameObjectToScene(go)
             }
         }
+        loadResources()
         // endregion
 
+    }
+
+    private fun loadResources() {
+        AssetPool().getShaders("defualt_shader.glsl")
     }
 
     override fun update(dt: Float) {

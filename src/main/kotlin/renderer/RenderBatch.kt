@@ -8,6 +8,7 @@ import org.lwjgl.opengl.GL20.glEnableVertexAttribArray
 import org.lwjgl.opengl.GL20C.glVertexAttribPointer
 import org.lwjgl.opengl.GL30.glBindVertexArray
 import org.lwjgl.opengl.GL30.glGenVertexArrays
+import util.AssetPool
 
 
 class RenderBatch(maxBatchSize: Int) {
@@ -24,7 +25,7 @@ class RenderBatch(maxBatchSize: Int) {
     private var vaoId = 0
     private var vboId = 0
     private val maxBatchSize: Int
-    private val shader: Shader = Shader("defualt_shader.glsl")
+    private val shader: Shader = AssetPool().getShaders("defualt_shader.glsl")
 
     init {
         shader.compile()
