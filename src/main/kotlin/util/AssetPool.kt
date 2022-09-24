@@ -8,13 +8,13 @@ class AssetPool {
 
     fun getShaders(resName: String): Shader{
         val file = File(resName)
-        return if (shaders.containsKey(file.absolutePath)){
-            shaders.get(file.absolutePath)!!
+        return if (shaders.containsKey(file.name)){
+            shaders[file.name]!!
         }
         else{
             val shader = Shader(resName)
             shader.compile()
-            AssetPool().shaders[file.absolutePath] = shader
+            shaders[file.name] = shader
             return shader
         }
     }
