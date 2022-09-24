@@ -6,11 +6,12 @@ import org.lwjgl.opengl.GL20.*
 import util.readTextFromFile
 import java.nio.FloatBuffer
 
-class Shader(v: String, f: String) {
+class Shader(shaderFilePath: String) {
     private var shaderProgramId: Int = 0
     var beingUsed = false
-    private var vertexShaderSrc = readTextFromFile("shaders/$v")
-    private var fragmentShaderSrc = readTextFromFile("shaders/$f")
+    private val shaders = readTextFromFile("shaders/$shaderFilePath").split("/**/")
+    private var vertexShaderSrc = shaders[0]
+    private var fragmentShaderSrc = shaders[1]
 
 
     fun compile(){

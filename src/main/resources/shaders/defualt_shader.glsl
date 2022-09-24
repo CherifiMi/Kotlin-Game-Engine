@@ -13,3 +13,18 @@ void main()
     fColor = aColor;
     gl_Position = uProj * uView * vec4(aPos, uZoom);
 }
+
+
+/**/
+
+
+#version 330 core
+
+in vec4 fColor;
+
+out vec4 color;
+
+void main()
+{
+    color = fColor;
+}

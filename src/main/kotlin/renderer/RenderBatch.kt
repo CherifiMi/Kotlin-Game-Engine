@@ -24,7 +24,7 @@ class RenderBatch(maxBatchSize: Int) {
     private var vaoId = 0
     private var vboId = 0
     private val maxBatchSize: Int
-    private val shader: Shader = Shader("vertex_shader.glsl", "fragment_shader.glsl")
+    private val shader: Shader = Shader("defualt_shader.glsl")
 
     init {
         shader.compile()
