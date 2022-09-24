@@ -37,7 +37,7 @@ class LevelEditorScene : Scene() {
     }
 
     private fun loadResources() {
-        AssetPool().getShaders("defualt_shader.glsl")
+        AssetPool().getShaders("default_shader.glsl")
     }
 
     override fun update(dt: Float) {

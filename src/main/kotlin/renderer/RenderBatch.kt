@@ -25,7 +25,7 @@ class RenderBatch(maxBatchSize: Int) {
     private var vaoId = 0
     private var vboId = 0
     private val maxBatchSize: Int
-    private val shader: Shader = AssetPool().getShaders("defualt_shader.glsl")
+    private val shader: Shader = AssetPool().getShaders("default_shader.glsl")
 
     init {
         shader.compile()
