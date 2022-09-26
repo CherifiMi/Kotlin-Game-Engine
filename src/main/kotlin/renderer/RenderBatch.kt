@@ -14,14 +14,23 @@ import util.AssetPool
 class RenderBatch(maxBatchSize: Int) {
     private val POS_SIZE = 2
     private val COLOR_SIZE = 4
+    private val TEX_COORDS_SIZE = 2
+    private val TEX_ID_SIZE = 1
+
     private val POS_OFFSET = 0
     private val COLOR_OFFSET = POS_OFFSET + POS_SIZE * java.lang.Float.BYTES
-    private val VERTEX_SIZE = 6
+    private val TEX_COORDS_OFFSET = COLOR_OFFSET + COLOR_SIZE * java.lang.Float.BYTES
+    private val TEX_ID_OFFSET = TEX_COORDS_OFFSET + TEX_COORDS_SIZE * java.lang.Float.BYTES
+
+    private val VERTEX_SIZE = 9
     private val VERTEX_SIZE_BYTES = VERTEX_SIZE * java.lang.Float.BYTES
+
     private val sprites: Array<SpriteRenderer?>
+    private val textures: MutableList<Texture> = mutableListOf()
     private var numSprites: Int
     var hasRoom: Boolean
     private val vertices: FloatArray
+    private val texSlots: IntArray = intArrayOf(0, 1, 2, 3, 4, 5, 6, 7)
     private var vaoId = 0
     private var vboId = 0
     private val maxBatchSize: Int
@@ -56,8 +65,15 @@ class RenderBatch(maxBatchSize: Int) {
         // Enable the buffer attribute pointers
         glVertexAttribPointer(0, POS_SIZE, GL_FLOAT, false, VERTEX_SIZE_BYTES, POS_OFFSET.toLong())
         glEnableVertexAttribArray(0)
+
         glVertexAttribPointer(1, COLOR_SIZE, GL_FLOAT, false, VERTEX_SIZE_BYTES, COLOR_OFFSET.toLong())
         glEnableVertexAttribArray(1)
+
+        glVertexAttribPointer(2, TEX_COORDS_SIZE, GL_FLOAT, false, VERTEX_SIZE_BYTES, TEX_COORDS_OFFSET.toLong())
+        glEnableVertexAttribArray(2)
+
+        glVertexAttribPointer(3, TEX_ID_SIZE, GL_FLOAT, false, VERTEX_SIZE_BYTES, TEX_ID_OFFSET.toLong())
+        glEnableVertexAttribArray(3)
     }
 
     fun addSprite(spr: SpriteRenderer) {
@@ -67,6 +83,11 @@ class RenderBatch(maxBatchSize: Int) {
         loadVertexProperties(index)
         if (numSprites >= maxBatchSize) {
             hasRoom = false
+        }
+        if (spr.texture != null){
+            if (!textures.contains(spr.texture)){
+                textures.add(spr.texture!!)
+            }
         }
     }
 
@@ -82,6 +103,13 @@ class RenderBatch(maxBatchSize: Int) {
         shader.uploadMat4f("uProj", camera.getProjectionMatrix())
         shader.uploadMat4f("uView", camera.getViewMatrix())
         shader.uploadFloat("uZoom", zoom)
+        shader.uploadIntArray("c", texSlots)
+
+        textures.forEachIndexed { i, tex ->
+            glActiveTexture(GL_TEXTURE0 + i + 1)
+            tex.bind()
+        }
+
 
         glBindVertexArray(vaoId)
         glEnableVertexAttribArray(0)
@@ -92,10 +120,14 @@ class RenderBatch(maxBatchSize: Int) {
         glDisableVertexAttribArray(0)
         glDisableVertexAttribArray(1)
         glBindVertexArray(0)
+
+        textures.forEachIndexed { _, tex ->
+            tex.unbind()
+        }
+
         shader.detach()
 
     }
-
 
     private fun generateIndices(): IntArray {
         val elements = IntArray(6 * maxBatchSize)
@@ -123,11 +155,20 @@ class RenderBatch(maxBatchSize: Int) {
 
     }
 
-
     private fun loadVertexProperties(index: Int) {
         val sprite = sprites[index]
         var offset = index * 4 * VERTEX_SIZE
         val color = sprite!!.color
+        val texture = sprite!!.texture
+        val texCoords = sprite.texCoords
+        var texId = 0
+        if (sprite.texture!=null){
+            textures.forEachIndexed{i, tex ->
+                if (tex ==sprite.texture){
+                    texId = i + 1
+                }
+            }
+        }
 
         var xAdd = 1.0f
         var yAdd = 1.0f
@@ -149,6 +190,13 @@ class RenderBatch(maxBatchSize: Int) {
             vertices[offset + 3] = color.y
             vertices[offset + 4] = color.z
             vertices[offset + 5] = color.w
+
+            //load texture coords
+            vertices[offset + 6] = texCoords[i].x
+            vertices[offset + 7] = texCoords[i].y
+
+            //load texture id
+            vertices[offset + 8] = texId.toFloat()
 
             offset += VERTEX_SIZE
         }

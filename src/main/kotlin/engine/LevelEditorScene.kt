@@ -3,24 +3,40 @@ package engine
 
 import componenets.SpriteRenderer
 import org.joml.Vector2f
-import org.joml.Vector4f
+import renderer.Texture
 import util.AssetPool
 import java.awt.event.KeyEvent
+
 
 class LevelEditorScene : Scene() {
 
     override fun setup() {
         camera = Camera(Vector2f(-250f, 0f))
 
-        // region draw
-        val xOffset = 10
+
+        //region draw textures
+
+        val b = GameObject("dico", Transform(Vector2f(400f, 100f), Vector2f(256f, 256f)))
+        b.addComponents(SpriteRenderer(AssetPool().getTexture("src/main/resources/images/dico_icon.jpg")))
+        addGameObjectToScene(b)
+        addGameObjectToScene(b)
+
+        val a = GameObject("mario", Transform(Vector2f(100f, 100f), Vector2f(256f, 256f)))
+        a.addComponents(SpriteRenderer(Texture("src/main/resources/images/mario.png")))
+        addGameObjectToScene(a)
+        addGameObjectToScene(a)
+
+        //endregion
+
+        // region draw shader
+        /*val xOffset = 10
         val yOffset = 10
 
         val totalWidth = (900 - xOffset * 2).toFloat()
         val totalHeight = (600 - yOffset * 2).toFloat()
         val sizeX = totalWidth / 100.0f
         val sizeY = totalHeight / 100.0f
-        val padding = 5f
+        val padding = 0f
 
         for (x in 0..99) {
             for (y in 0..99) {
@@ -30,9 +46,12 @@ class LevelEditorScene : Scene() {
                 go.addComponents(SpriteRenderer(Vector4f(xPos / totalWidth, yPos / totalHeight, 1f, 1f)))
                 addGameObjectToScene(go)
             }
-        }
+        }*/
+
+
         loadResources()
         // endregion
+
 
     }
 

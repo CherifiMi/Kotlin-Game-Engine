@@ -2,28 +2,23 @@ package renderer
 
 import org.lwjgl.BufferUtils
 import org.lwjgl.opengl.GL11.*
-import org.lwjgl.stb.STBImage.stbi_image_free
-import org.lwjgl.stb.STBImage.stbi_load
+import org.lwjgl.stb.STBImage.*
 import java.nio.ByteBuffer
 import java.nio.IntBuffer
 
-class Texture(s: String) {
-    private var filePath: String
-    private var texId: Int
+class Texture(private val filePath: String) {
+    private var texId = glGenTextures()
 
     init {
-        filePath = s
-
-        // make tex on gpu
-        texId = glGenTextures()
+        // make texture on gpu
         glBindTexture(GL_TEXTURE_2D, texId)
 
-        // set tex pars
+        // set texture pars
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT)
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT)
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST)
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST)
-
+        stbi_set_flip_vertically_on_load(true)
         val width: IntBuffer = BufferUtils.createIntBuffer(1)
         val height: IntBuffer = BufferUtils.createIntBuffer(1)
         val channels: IntBuffer = BufferUtils.createIntBuffer(1)

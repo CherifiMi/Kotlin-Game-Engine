@@ -128,4 +128,10 @@ class Shader(shaderFilePath: String) {
         glUniform1i(varLocation, v)
     }
 
+    fun uploadIntArray(varName: String, texSlots: IntArray) {
+        val varLocation = glGetUniformLocation(shaderProgramId, varName)
+        use()
+        glUniform1iv(varLocation, texSlots)
+    }
+
 }

@@ -15,7 +15,7 @@ class Renderer {
     }
 
     fun add(go: GameObject) {
-        val spr = go.getComponent(SpriteRenderer()::class.java)
+        val spr = go.getComponent(SpriteRenderer::class.java)
         spr?.let { add(it) }
     }
 
